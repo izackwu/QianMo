@@ -8,7 +8,7 @@ class BaseParser(object):
     def __init__(self):
         self.standard_url_pattern = re.compile(r"^(https?:)?//[^\s]*$")  # https:// or http:// or //
         self.relative_path_pattern = re.compile(r"^\.{0,2}/?[^\s]*$")  # / or ./ or ../
-        self.common_img_formats = ("bmp", "jpg", "jpeg", "png", "gif")
+        self.common_img_formats = ("bmp", "jpg", "jpeg", "png", "gif", "htm")
 
     def parse_url(self, html_content, current_url=None):
         soup = BeautifulSoup(html_content, features="html.parser")  # specify features to avoid potential warnings
