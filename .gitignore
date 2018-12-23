@@ -3,7 +3,7 @@
 # Edit at https://www.gitignore.io/?templates=python,windows
 
 ### data ###
-*data*
+*data*/
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
