@@ -2,8 +2,10 @@
 # Created by https://www.gitignore.io/api/python,windows
 # Edit at https://www.gitignore.io/?templates=python,windows
 
-### data ###
+### project specific ###
 *data*/
+elasticsearch*/
+playground*.py
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
