@@ -12,10 +12,10 @@ index_file = os.path.join(data_dir, "new_index.txt")
 
 class HtmlDoc(Document):
 
-    title = Text(analyzer="ik_max_word")
+    title = Text(analyzer="ik_max_word", search_analyzer="ik_smart")
     url = Text()
     host = Text()
-    text = Text(analyzer="ik_max_word")
+    text = Text(analyzer="ik_max_word", search_analyzer="ik_smart")
 
     class Index:
         name = "qianmo"
@@ -36,6 +36,29 @@ def html_to_text(html_content):
     return re.sub(pattern, ' ', markdown_text)
 
 
+def get_title(html_content, url=None):
+    special_cases = ["https://www.sjtu.edu.cn/", "http://www.sjtu.edu.cn/",
+                     "https://www.sjtu.edu.cn", "http://www.sjtu.edu.cn"]
+    soup = BeautifulSoup(html_content, "html.parser")
+    title = ""
+    if url and url in special_cases:
+        return soup.title.text.strip()
+    for tag in ["h1", "h2", "title"]:
+        all_tags = soup.find_all(tag)
+        if all_tags:
+            for x in all_tags:
+                if len(x.text.strip()) > len(title):
+                    title = x.text.strip()
+            break
+    if not title:
+        return "无标题文档"
+    if len(title) <= 20 and soup.title.text.find(title) == -1:
+        title = title + " " + soup.title.text.strip()
+    elif soup.title.text.find(title) != -1:
+        title = soup.title.text.strip()
+    return title
+
+
 if __name__ == '__main__':
     connections.create_connection(hosts=['localhost'])
     HtmlDoc.init()
@@ -47,9 +70,12 @@ if __name__ == '__main__':
             with open(file_path, mode="r", encoding="utf8") as html_file:
                 html_content = html_file.read()
             text = html_to_text(html_content)
-            soup = BeautifulSoup(html_content, "html.parser")
-            title = soup.title.text if soup.title else "无标题"
+            title = get_title(html_content, url)
             host = urlparse(url).netloc
+            # print(url)
+            # print(title)
+            # print(text)
+            # input()
             doc = HtmlDoc(title=title, text=text, url=url, host=host)
             doc.save()
             indexed_num += 1
