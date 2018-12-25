@@ -1,0 +1,239 @@
+/*General*/
+/*@import url('https://fonts.googleapis.com/css?family=Quicksand');*/
+@import url(http://fonts.loli.net/css?family=Quicksand);
+body{
+    background-image: url(/static/img/bg.png);
+    font-size: 25px;
+    font-family: 'Quicksand', sans-serif;
+    width:100%;
+    height:100%;
+    min-width: 1300px;
+    margin:0;
+}
+
+.beacon{
+    color:white;
+    background-color: #1abc9c;
+    border-radius: 15px;
+}
+
+a {
+    text-decoration: none;
+    color:#1abc9c;
+}
+a:visited {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+a:active {
+    text-decoration: none;
+}
+h1{
+    font-size: 40px;
+    text-align: center;
+}
+
+.hideMe{
+    display: none;
+}
+
+button{
+    margin-top: 20px;
+    background-color: white;
+    border-style: solid;
+    border-color: #1abc9c;
+    border-width: 1px;
+    color: #1abc9c;
+    font-size: 25px;
+    font-family: inherit;
+    height:50px;
+    width:15%;
+    border-radius: 5px;
+}
+
+button:hover{
+    background-color: #1abc9c;
+    border-color:white;
+    color: white;
+}
+
+button:disabled{
+    background-color: gray;
+    color:white;
+    border-color:white;
+    cursor: not-allowed;
+}
+
+
+td{
+    border-top: 1px;
+    border-bottom: 1px;
+    border-left: 0;
+    border-right: 0;
+    border-style: solid;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/*Home Page*/
+
+#magicWrapper{
+    position: relative;
+    height: 600px;
+}
+
+#superCenter{
+    /* position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translate(0,-100%); */
+    position: relative;
+    width:100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#homeSearch{
+    font-size:25px;
+}
+
+#homeSubmit{
+    text-align: center;
+    background-color: #1abc9c;
+    color: white;
+    width:10%;
+    height:51px;
+    font-size: 30px;
+    font-family: inherit;
+    border-style: none;
+    margin-top:0.5px;
+}
+
+#homeInput{
+    text-align: center;
+    width:50%;
+    height:50px;
+    font-size: 25px;
+    font-family: inherit;
+    margin-top:0;
+    padding: 0;
+}
+#searchType {
+    margin-bottom: 20px;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 10px;
+    font-size: 25px;
+    color: white;
+}
+
+#homeInput::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #8c8c8c;
+
+}
+#homeInput:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #8c8c8c;
+}
+#homeInput::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #8c8c8c;
+}
+#homeInput:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #8c8c8c;
+}
+
+div.totalAndTime{
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 80px;
+    margin-bottom: 10px;
+}
+
+
+/*floating result*/
+div.resultContainer{
+/*    margin-top: 90px;*/
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+div.item{
+    margin-bottom: 20px;
+    padding: 20px 15px 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px 2px rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 0 0 20px 2px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 0 20px 2px rgba(0, 0, 0, .1);
+}
+
+span.highlight{
+    color:red;
+}
+
+
+/*Navigation Bar*/
+.floatingBar{
+    position: fixed;
+    top: 0;
+    width:80%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top:10px;
+    padding-bottom: 10px;
+    margin-top: 0;
+    background: white;
+}
+
+.floatingInput{
+    text-align: left;
+    width:85%;
+    height:50px;
+    font-size: 25px;
+    font-family: inherit;
+    margin-top:0;
+    padding: 0;
+}
+
+.floatingSubmit{
+    float: right;
+    text-align: center;
+    background-color: #1abc9c;
+    color: white;
+    width:10%;
+    height:50px;
+    font-size: 30px;
+    font-family: inherit;
+    border-style: none;
+}
+
+/*Pagination*/
+div.pagination{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+ul.pagination li {display: inline;}
+
+ul.pagination li a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+ul.pagination li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+ul.pagination li a:hover:not(.active) {background-color: #ddd;}

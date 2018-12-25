@@ -1,0 +1,49 @@
+$def with (query_string,search_result,total_num,page,time_used)
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <title>$query_string 网页搜索结果</title>
+</head>
+<body>
+    <div class = "floatingBar">
+        <form action="/search/html">
+            <input type="text" name="s" class="floatingInput" value= "$query_string">
+            <input type="submit" class="floatingSubmit" value="搜索">
+        </form>
+    </div>
+    <div class = "totalAndTime">
+        找到 $total_num 条结果,用时 $"{:.4f}".format(time_used) 秒
+    </div>
+    <div class = "resultContainer">
+    $for item in search_result:
+        <div class = "item">
+            <div class = "title"><a href="$item['url']">$:item["title"]</a></div>
+            <div class = "content">$:item["content"]</div>
+            <div class = "url"><a href="$item['url']">$item["url"][:80]</a></div>
+        </div>
+    </div>
+    <div class = "pagination">
+        <ul class="pagination">
+        $ max_page = int((total_num - 1) // 10) + 1
+        $if page >= 8:
+            $ start_page = page - 3
+            $ end_page = min(page + 4, max_page)
+        $else:
+            $ start_page = 1
+            $ end_page = min(8 , max_page)
+        $if start_page > 1:
+            <li><a href="/search/html?s=$query_string&page=1"><<</a></li>
+        $for page_no in range(start_page,end_page+1):
+            $if page_no == page:
+                <li><a href="#" class="active">$page_no</a></li>
+            $else:
+                <li><a href="/search/html?s=$query_string&page=$page_no">$page_no</a></li>
+        $if end_page < max_page:
+            <li><a href="/search/html?s=$query_string&page=$max_page">>></a></li>
+        </ul>
+    </div>
+
+</body>
+</html>
