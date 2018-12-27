@@ -13,8 +13,8 @@
     <title>图片搜索</title>
 </head>
 <body>
-        <h1 style="font-size: 60px;" >
-            <span>The</span><span class="beacon">Beacon</span>
+        <h1 style="font-size: 60px; margin-top:10%" >
+            <span>阡陌 人脸搜索</span>
         </h1>
         <div id="searchType" align="center">
             <span class="active" ><a href="/" style="color:white">网页</a></span>
@@ -40,7 +40,8 @@ const uppy = Uppy.Core({
   replaceTargetContent: true,
   showProgressDetails: true,
   note: 'Only 1 image file allowed, up to 1 MB',
-  height: 470,
+  height: 300,
+  width:1000,
   metaFields: [
     { id: 'name', name: 'Name', placeholder: 'file name' },
     { id: 'caption', name: 'Caption', placeholder: 'describe what the image is about' }

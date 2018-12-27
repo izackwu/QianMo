@@ -24,11 +24,6 @@ def extract_feature(image_file, face_size=160, margin=44, gpu_memory_fraction=0.
     minsize = 20  # minimum size of face
     threshold = [0.6, 0.7, 0.7]  # three steps's threshold
     factor = 0.709  # scale factor
-    with tf.Graph().as_default():
-        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_memory_fraction)
-        sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
-        with sess.as_default():
-            pnet, rnet, onet = align.detect_face.create_mtcnn(sess, None)
     image = misc.imread(image_file, mode="RGB")
     image_size = image.shape[0:2]
     bounding_boxes, _ = align.detect_face.detect_face(image, minsize, pnet, rnet, onet, threshold, factor)
@@ -45,11 +40,8 @@ def extract_feature(image_file, face_size=160, margin=44, gpu_memory_fraction=0.
     aligned = misc.imresize(cropped, (face_size, face_size), interp='bilinear')
     prewhitened = facenet.prewhiten(aligned)
     face_tensor = prewhitened[np.newaxis, :, :, :]
-    with tf.Graph().as_default():
-        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.6)
-        with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False)) as sess:
-            # Load the model
-            facenet.load_model(facenet_model)
+    with graph.as_default():
+        with sess.as_default():
             # Get input and output tensors
             images_placeholder = tf.get_default_graph().get_tensor_by_name("input:0")
             embeddings = tf.get_default_graph().get_tensor_by_name("embeddings:0")
@@ -116,8 +108,14 @@ def search_html(query_string, page=1, page_size=10):
 
 
 def search_face(image_hash):
+    result_data = dict()
+    result_data["target_url"] = "/static/upload/" + image_hash+".jpg"
+    result_data["search_result"] = list()
     image_file = os.path.join(upload_dir, image_hash+".jpg")
     target_feature = extract_feature(image_file)
+    if not target_feature:
+        print("No face detected!")
+        return result_data
     all_faces = np.load(face_feature_file)
     similarity = np.dot(all_faces, target_feature.T)
     print(similarity.shape)
@@ -125,16 +123,19 @@ def search_face(image_hash):
     print(sorted_index.shape)
     with open(face_info_file, mode="r", encoding="utf8") as f:
         face_info_list = f.readlines()
-    result_data = dict()
-    search_result = list()
-    for i in range(1, 11):
+    prev_similarity = None
+    for i in range(1, 21):
+        print(similarity[sorted_index[-i]])
+        if similarity[sorted_index[-i]] <= 0.75:
+            break
+        if prev_similarity == similarity[sorted_index[-i]]:
+            continue
+        prev_similarity = similarity[sorted_index[-i]]
         face_info = face_info_list[sorted_index[-i]]
         image_url = face_info.split()[0]
-        search_result.append({
+        result_data["search_result"].append({
             "url": image_url,
         })
-    result_data["search_result"] = search_result
-    result_data["target_url"] = "/static/upload/" + image_hash+".jpg"
     return result_data
 
 
@@ -203,6 +204,15 @@ urls = (
 render = web.template.render("templates")
 es = connections.create_connection(hosts=["localhost"])
 upload_dir = "static/upload"
+graph = tf.Graph()
+with graph.as_default():
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.6)
+    sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
+    with sess.as_default():
+        pnet, rnet, onet = align.detect_face.create_mtcnn(sess, None)
+    # Load the model
+        facenet.load_model(facenet_model)
+print("Ready to go")
 if __name__ == '__main__':
     app = web.application(urls, globals(), autoreload=False)
     app.run()

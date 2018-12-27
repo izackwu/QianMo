@@ -11,11 +11,6 @@ body{
     margin:0;
 }
 
-.beacon{
-    color:white;
-    background-color: #1abc9c;
-    border-radius: 15px;
-}
 
 a {
     text-decoration: none;
@@ -78,6 +73,10 @@ td{
 }
 
 /*Home Page*/
+
+.mainIcon{
+    height:100px;
+}
 
 .center p {
   margin: 0;
@@ -188,8 +187,9 @@ span.highlight{
 .floatingBar{
     position: fixed;
     top: 0;
-    width:80%;
-    padding-left: 10%;
+    width:100%;
+    height:50px;
+    /*padding-left: 10%;*/
     padding-right: 10%;
     padding-top:10px;
     padding-bottom: 10px;
@@ -197,9 +197,31 @@ span.highlight{
     background: white;
 }
 
+.floatingIcon{
+    height: 100%;
+    float:left;
+    width: 10%;
+}
+.goBack{
+    float: left;
+    width:50px;
+    height:50px;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.centerIcon{
+    float: left;
+    height:100%;
+    width:10%;
+    margin-left: 35%;
+}
+
 .floatingInput{
+    text-indent:5px;
     text-align: left;
-    width:85%;
+    float:left;
+    width:65%;
     height:50px;
     font-size: 25px;
     font-family: inherit;
@@ -208,7 +230,8 @@ span.highlight{
 }
 
 .floatingSubmit{
-    float: right;
+    float: left;
+    margin-left: 5%;
     text-align: center;
     background-color: #1abc9c;
     color: white;
