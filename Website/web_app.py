@@ -113,7 +113,7 @@ def search_face(image_hash):
     result_data["search_result"] = list()
     image_file = os.path.join(upload_dir, image_hash+".jpg")
     target_feature = extract_feature(image_file)
-    if not target_feature:
+    if target_feature is None:
         print("No face detected!")
         return result_data
     all_faces = np.load(face_feature_file)
