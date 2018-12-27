@@ -13,10 +13,10 @@ https://blog.csdn.net/m0_37568521/article/details/78487568
     page-break-inside: avoid;
     border: 1px solid #1abc9c;
 }
-img {
+.item img{
     width: 100%;
 }
-p {
+.item p{
     line-height: 30px;
 }
 @media (min-width: 992px) and (max-width: 1300px) {
@@ -34,4 +34,8 @@ p {
     p {
         color: orange;
     }
+}
+
+.special{
+    border: 3px solid red;
 }

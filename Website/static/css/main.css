@@ -39,7 +39,7 @@ h1{
     display: none;
 }
 
-button{
+/*button{
     margin-top: 20px;
     background-color: white;
     border-style: solid;
@@ -64,7 +64,7 @@ button:disabled{
     color:white;
     border-color:white;
     cursor: not-allowed;
-}
+}*/
 
 
 td{
@@ -78,6 +78,15 @@ td{
 }
 
 /*Home Page*/
+
+.center p {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
 
 #magicWrapper{
     position: relative;

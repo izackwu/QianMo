@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link href="/static/css/uppy.min.css" rel="stylesheet">
+    <style>
+        body{
+            background-image: url(/static/img/bg_image_new.jpg);
+            background-size: 100%,100%;
+        }
+    </style>
+    <title>图片搜索</title>
+</head>
+<body>
+        <h1 style="font-size: 60px;" >
+            <span>The</span><span class="beacon">Beacon</span>
+        </h1>
+        <div id="searchType" align="center">
+            <span class="active" ><a href="/" style="color:white">网页</a></span>
+            <span class="type"><a href="/face" style="color:white">图片</a></span>
+        </div>
+<script src="/static/js/uppy.min.js"></script>
+<div class="DashboardContainer" align="center"></div>
+
+<script>
+const uppy = Uppy.Core({
+  debug: false,
+  autoProceed: true,
+  restrictions: {
+    maxFileSize: 1000000,
+    maxNumberOfFiles: 1,
+    minNumberOfFiles: 1,
+    allowedFileTypes: ['image/*']
+  }
+})
+.use(Uppy.Dashboard, {
+  inline: true,
+  target: '.DashboardContainer',
+  replaceTargetContent: true,
+  showProgressDetails: true,
+  note: 'Only 1 image file allowed, up to 1 MB',
+  height: 470,
+  metaFields: [
+    { id: 'name', name: 'Name', placeholder: 'file name' },
+    { id: 'caption', name: 'Caption', placeholder: 'describe what the image is about' }
+  ],
+  browserBackButtonClose: true
+})
+.use(Uppy.Webcam, { target: Uppy.Dashboard })
+.use(Uppy.XHRUpload, { endpoint: '/image-upload' })
+.use(Uppy.Url, {
+  target: Uppy.Dashboard,
+  serverUrl: 'https://companion.uppy.io/',
+  locale: {}
+})
+uppy.on('upload-success', (file, resp, uploadURL) => {
+    // var temp = document.createElement("form");
+    // temp.action = "/search/face";
+    // temp.method = "post";
+    // temp.style.display = "none";
+    // var opt = document.createElement("textarea");
+    // opt.name = "image";
+    // opt.value = resp.hash;
+    // temp.appendChild(opt);
+    // document.body.appendChild(temp);
+    // temp.submit();
+    window.location.href = "/search/face/"+resp.hash;  
+})
+</script>
+</body>
+</html>
+
