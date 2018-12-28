@@ -116,27 +116,48 @@ def search_face(image_hash):
     if target_feature is None:
         print("No face detected!")
         return result_data
-    all_faces = np.load(face_feature_file)
     similarity = np.dot(all_faces, target_feature.T)
     print(similarity.shape)
     sorted_index = np.argsort(similarity)
     print(sorted_index.shape)
-    with open(face_info_file, mode="r", encoding="utf8") as f:
-        face_info_list = f.readlines()
     prev_similarity = None
     for i in range(1, 21):
         print(similarity[sorted_index[-i]])
-        if similarity[sorted_index[-i]] <= 0.75:
+        if similarity[sorted_index[-i]] <= similarity_threshold:
             break
         if prev_similarity == similarity[sorted_index[-i]]:
             continue
         prev_similarity = similarity[sorted_index[-i]]
         face_info = face_info_list[sorted_index[-i]]
-        image_url = face_info.split()[0]
+        image_url, page_url = face_info.split()[0], face_info.split()[2]
+        page_title = get_page_title(page_url)
         result_data["search_result"].append({
             "url": image_url,
+            "page_url": page_url,
+            "page_title": page_title,
+            # "page_title": similarity[sorted_index[-i]],
         })
     return result_data
+
+
+def get_page_title(page_url):
+    index = "qianmo"
+    doc_type = "doc"
+    response = es.search(
+        index=index,
+        doc_type=doc_type,
+        body={
+            "query": {
+                "term": {
+                    "url": page_url,
+                }
+            }
+        }
+    )
+    result_num = response["hits"]["total"]
+    if result_num == 0:
+        return "未找到标题"
+    return response["hits"]["hits"][0]["_source"]["title"]
 
 
 class Index:
@@ -200,10 +221,12 @@ urls = (
     "/search/face/(.+)", "SearchFace",
     "/image-upload", "Upload",
 )
-
 render = web.template.render("templates")
+
+# init
 es = connections.create_connection(hosts=["localhost"])
 upload_dir = "static/upload"
+similarity_threshold = 0.6935
 graph = tf.Graph()
 with graph.as_default():
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.6)
@@ -212,7 +235,11 @@ with graph.as_default():
         pnet, rnet, onet = align.detect_face.create_mtcnn(sess, None)
     # Load the model
         facenet.load_model(facenet_model)
+all_faces = np.load(face_feature_file)
+with open(face_info_file, mode="r", encoding="utf8") as f:
+    face_info_list = f.readlines()
 print("Ready to go")
+
 if __name__ == '__main__':
     app = web.application(urls, globals(), autoreload=False)
     app.run()

@@ -138,6 +138,19 @@ td{
     color: white;
 }
 
+.type,.active-type a{
+    padding-left:5px;
+    padding-right: 5px;
+}
+.type a{
+    color:#1abc9c;
+}
+.active-type a{
+    color:white;
+    background-color: #1abc9c;
+    border-radius: 5px;
+}
+
 #homeInput::-webkit-input-placeholder { /* WebKit browsers */
     color:    #8c8c8c;
 
@@ -195,6 +208,7 @@ span.highlight{
     padding-bottom: 10px;
     margin-top: 0;
     background: white;
+    z-index: 100;
 }
 
 .floatingIcon{

@@ -7,35 +7,53 @@ https://blog.csdn.net/m0_37568521/article/details/78487568
     column-count: 3;
     margin: 80px auto;
 }
-.item {
-    padding: 10px;
+
+.imgBox{
     margin-bottom: 10px;
     page-break-inside: avoid;
-    border: 1px solid #1abc9c;
+    border: none;
+    position:relative;
+    z-index:1;
 }
-.item img{
-    width: 100%;
+.imgBox img{
+    width:100%;
+    height:100%;
 }
-.item p{
-    line-height: 30px;
+.hoverLayer{
+    display: none;
+}
+.hoverLayer a{
+    color: white;
+    font-size: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.imgBox:hover .hoverLayer {
+   width:100%;
+   background:rgba(0,0,0,.5);
+   position:absolute;
+   /*
+   There is a weird bug: you have to set bottom to 6px
+   */
+   bottom:6px;      
+   left:0;
+   display:inline-block;
+   box-sizing:border-box;
 }
 @media (min-width: 992px) and (max-width: 1300px) {
     .waterfall {
         column-count: 2;
-    }
-    p {
-        color:red;
     }
 }
 @media (max-width: 991px) {
     .waterfall {
         column-count: 1;
     }
-    p {
-        color: orange;
-    }
 }
 
 .special{
-    border: 3px solid red;
+    border: 3px solid #1abc9c;
+    padding: 3px;
 }
