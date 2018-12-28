@@ -13,8 +13,8 @@ index_file = os.path.join(data_dir, "new_index.txt")
 class HtmlDoc(Document):
 
     title = Text(analyzer="ik_max_word", search_analyzer="ik_smart")
-    url = Text()
-    host = Text()
+    url = Keyword()
+    host = Keyword()
     text = Text(analyzer="ik_max_word", search_analyzer="ik_smart")
 
     class Index:
@@ -72,7 +72,8 @@ if __name__ == '__main__':
             text = html_to_text(html_content)
             title = get_title(html_content, url)
             host = urlparse(url).netloc
-            # print(url)
+            # print("#", url, "#", sep="")
+            # input()
             # print(title)
             # print(text)
             # input()
